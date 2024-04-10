@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { CrowdFundingContext } from "@/context/CrowdFunding"
 
 const PopUp = ({ setOpenModal, donate, donateFunction, getDonations }) => {
