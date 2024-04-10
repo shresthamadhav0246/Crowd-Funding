@@ -70,48 +70,57 @@ export const CrowdFundingProvider = ({ children }) => {
                 pId: i,
             }))
             console.log("successfully fetched campaigns data")
+            console.log(parsedCampaigns)
             return parsedCampaigns
         } catch (error) {
+            console.log("Error!!!", error)
             console.error("error fetching campaigns", error)
             throw error
         }
     }
 
     const getUserCampaings = async () => {
-        const provider = new ethers.providers.JsonRpcProvider(
-            "https://eth-sepolia.g.alchemy.com/v2/l6CNn6moSnmhGfzlVkTyPC_YTwtf0_We"
-        )
-        const contract = fetchContract(provider)
+        try {
+            const provider = new ethers.providers.JsonRpcProvider(
+                "https://eth-sepolia.g.alchemy.com/v2/l6CNn6moSnmhGfzlVkTyPC_YTwtf0_We"
+            )
+            const contract = fetchContract(provider)
 
-        const allCampaigns = await contract.getCampaigns()
-        console.log(allCampaigns)
+            const allCampaigns = await contract.getCampaigns()
+            console.log(allCampaigns)
 
-        const accounts = await window.ethereum.request({
-            method: "eth_accounts",
-        })
-        const currentUser = accounts[0]
+            const accounts = await window.ethereum.request({
+                method: "eth_accounts",
+            })
+            const currentUser = accounts[0]
 
-        const filteredCampaings = allCampaigns.filter((campaign) => {
-            if (currentUser) {
-                return (
-                    campaign.owner.toLowerCase() === currentUser.toLowerCase()
-                )
-            }
-        })
+            const filteredCampaings = allCampaigns.filter((campaign) => {
+                if (currentUser) {
+                    return (
+                        campaign.owner.toLowerCase() ===
+                        currentUser.toLowerCase()
+                    )
+                }
+            })
 
-        const userData = filteredCampaings.map((campaign, i) => ({
-            owner: campaign.owner,
-            title: campaign.title,
-            description: campaign.description,
-            target: ethers.utils.formatEther(campaign.target.toString()),
-            deadline: campaign.deadline.toNumber(),
-            amountCollected: ethers.utils.formatEther(
-                campaign.amountCollected.toString()
-            ),
-            pId: i,
-        }))
+            const userData = filteredCampaings.map((campaign, i) => ({
+                owner: campaign.owner,
+                title: campaign.title,
+                description: campaign.description,
+                target: ethers.utils.formatEther(campaign.target.toString()),
+                deadline: campaign.deadline.toNumber(),
+                amountCollected: ethers.utils.formatEther(
+                    campaign.amountCollected.toString()
+                ),
+                pId: i,
+            }))
 
-        return userData
+            console.log("Data fetch successfully")
+            console.log(userData)
+            return userData
+        } catch (error) {
+            console.log("Error!", error)
+        }
     }
 
     const donate = async (pId, amount) => {

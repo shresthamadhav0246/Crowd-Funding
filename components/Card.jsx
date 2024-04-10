@@ -34,6 +34,8 @@ export default function Card({
         return images[randomIndex]
     }
 
+    console.log("Card allCampaign", allCampaigns)
+
     return (
         <>
             <div
@@ -52,8 +54,9 @@ export default function Card({
                         >
                             <Image
                                 className="object-cover w-full h-48"
-                                src={image}
-                                alt="image"
+                                src={getRandomImage()} // Call getRandomImage directly here
+                                alt="Campaign image"
+                                layout="fill"
                             />
 
                             <div className="p-4">
