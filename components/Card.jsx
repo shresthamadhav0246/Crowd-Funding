@@ -16,6 +16,14 @@ export default function Card({
     title,
 }) {
     const [image, setImage] = useState(null)
+    const [expandedState, setExpandedState] = useState({})
+
+    const toggleDescription = (key) => {
+        setExpandedState((prevState) => ({
+            ...prevState,
+            [key]: !prevState[key],
+        }))
+    }
 
     useEffect(() => {
         setImage(getRandomImage())
@@ -33,8 +41,6 @@ export default function Card({
         const randomIndex = Math.floor(Math.random() * images.length)
         return images[randomIndex]
     }
-
-    console.log("Card allCampaign", allCampaigns)
 
     return (
         <>
@@ -54,9 +60,8 @@ export default function Card({
                         >
                             <Image
                                 className="object-cover w-full h-48"
-                                src={getRandomImage()} // Call getRandomImage directly here
-                                alt="Campaign image"
-                                layout="fill"
+                                src={getRandomImage()}
+                                alt="image"
                             />
 
                             <div className="p-4">
@@ -66,9 +71,27 @@ export default function Card({
                                 <h4 className="text-xl font-semibold text-gray-600">
                                     {items.title}
                                 </h4>
-                                <p className="text-[15px] text-gray-500 cursor-pointer text-lg duration-300 transition hover:text-[#FA5252] mt-2">
-                                    {items.description}
-                                </p>
+                                <div
+                                    className={`${
+                                        !expandedState[key]
+                                            ? "overflow-hidden max-h-24"
+                                            : ""
+                                    } relative`}
+                                >
+                                    <p className="text-[15px] text-gray-500 hover:text-gray-700 mt-2">
+                                        {items.description}
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        toggleDescription(key)
+                                    }}
+                                    className="text-blue-500 underline mt-2"
+                                >
+                                    {expandedState[key] ? "Less" : "More"}
+                                </button>
+
                                 <div className="flex items-start justify-between">
                                     <p className="font-semibold text-[12px]">
                                         Target: {items.target} ETH

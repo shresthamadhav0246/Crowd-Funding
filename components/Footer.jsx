@@ -28,12 +28,12 @@ const Footer = () => {
     ]
 
     return (
-        <div className="app min-h-screen flex items-end justify-center font-poppins">
+        <div className="mt-5">
             <div className="py-10 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 bg-gray-800 text-white w-full p-4 relative">
                 <div className="  ">
                     <div className="footer-img flex items-center">
                         <img
-                            src={"https://i.imgur.com/520zDfd.png"}
+                            src="https://img.icons8.com/nolan/64/donation.png"
                             alt=""
                             className="w-16 h-auto"
                         />
@@ -41,11 +41,11 @@ const Footer = () => {
                             Crowd Funding
                         </span>
                     </div>
-                    <div className="infos text-gray-400">
-                        <span>Copyright © 2020 Nexcent ltd.</span>
+                    <div className="infos text-gray-400 ps-5 mb-4">
+                        <span>Copyright © 2024</span>
                         <span>All rights reserved</span>
                     </div>
-                    <div className="footer-icons flex items-center space-x-3">
+                    <div className="footer-icons flex items-center space-x-3 ps-5">
                         {socialLinks.map((socialLink, index) => {
                             const Icon = socialLink.icon
                             return (

@@ -1,6 +1,11 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import { CrowdFundingContext } from "@/context/CrowdFunding"
 
 const Hero = ({ title, createCampaign }) => {
+    const { currentAccount, connectWallet } = useContext(CrowdFundingContext)
+
+    const [isConnected, setIsConnected] = useState(false)
+
     const [campaign, setCampaign] = useState({
         title: "",
         description: "",
@@ -11,14 +16,18 @@ const Hero = ({ title, createCampaign }) => {
     const createNewCampaign = async (e) => {
         console.log("create campaign function called")
         e.preventDefault() // This will now work to prevent the form from submitting traditionally
+
+        if (!currentAccount) {
+            // Check if user is connected to the wallet
+            alert("Please connect your wallet before creating a campaign.")
+            return
+        }
+
         try {
             // Now correctly passing the collected form data to the createCampaign function
             const data = await createCampaign(campaign)
-            console.log(data)
-            console.log("Clicked")
         } catch (error) {
             console.log(error)
-            console.log("Error")
         }
     }
 
@@ -33,9 +42,10 @@ const Hero = ({ title, createCampaign }) => {
                             </span>
                         </h1>
                         <p class="mt-6 mb-8 text-lg sm:mb-12">
-                            Dictum aliquam porta in condimentum ac integer
+                            Crypto crowdfunding is a method of raising capital
                             <br class="hidden md:inline lg:hidden" />
-                            turpis pulvinar, est scelerisque ligula sem
+                            through the issuance of digital assets or tokens on
+                            a blockchain.
                         </p>
                         <div class="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
                             <a
@@ -43,14 +53,14 @@ const Hero = ({ title, createCampaign }) => {
                                 href="#"
                                 class="px-8 py-3 text-lg font-semibold rounded dark:bg-violet-600 dark:text-gray-50"
                             >
-                                Suspendisse
+                                Fund Me
                             </a>
                             <a
                                 rel="noopener noreferrer"
                                 href="#"
                                 class="px-8 py-3 text-lg font-semibold border rounded dark:border-gray-800"
                             >
-                                Malesuada
+                                Create Campaign
                             </a>
                         </div>
                     </div>
@@ -124,7 +134,7 @@ const Hero = ({ title, createCampaign }) => {
                                                 amount: e.target.value,
                                             })
                                         }}
-                                        placeholder="Title"
+                                        placeholder="Amount"
                                         required
                                         type="number"
                                         className="flex-grow w-full h-12 px-4 mb-2 transition

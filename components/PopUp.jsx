@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react"
+import { CrowdFundingContext } from "@/context/CrowdFunding"
 
 const PopUp = ({ setOpenModal, donate, donateFunction, getDonations }) => {
     const [amount, setAmount] = useState("")
     const [allDonations, setAllDonations] = useState()
 
+    const { currentAccount, connectWallet } = useContext(CrowdFundingContext)
+
     const createDonation = async () => {
+        if (!currentAccount) {
+            // Check if user is connected to the wallet
+            alert("Please connect your wallet before creating a campaign.")
+            return
+        }
+
         try {
             const data = await donateFunction(donate.pId, amount)
             console.log(data)
@@ -61,18 +70,19 @@ const PopUp = ({ setOpenModal, donate, donateFunction, getDonations }) => {
                                 onChange={(e) => setAmount(e.target.value)}
                                 placeholder="amount"
                                 required
-                                className="flex-grow w-full h-12 px-4 mb-2 bg-white border-gray-300 rounded shadow-sm"
+                                className="flex-grow w-full h-12 px-4 mb-2 bg-gray-100 border-gray-300 rounded shadow-sm"
                                 id="amount"
                                 name="amount"
                                 type="text"
                             />
+                            <p className="font-semibold pt-3">Donators</p>
                             {allDonations?.map((donate, i) => (
                                 <p
-                                    className="my-4 text-black text-lg leading-relaxed"
+                                    className="my-1 text-black text-sm leading-relaxed"
                                     key={i}
                                 >
-                                    {i + 1}: {donate.donation}{" "}
-                                    {donate.donator.slice(0, 35)}
+                                    {i + 1}: {donate.donation + "ETH"}{" "}
+                                    {donate.donator.slice(0, 30)}
                                 </p>
                             ))}
                         </div>

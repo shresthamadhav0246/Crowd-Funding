@@ -69,8 +69,7 @@ export const CrowdFundingProvider = ({ children }) => {
 
                 pId: i,
             }))
-            console.log("successfully fetched campaigns data")
-            console.log(parsedCampaigns)
+
             return parsedCampaigns
         } catch (error) {
             console.log("Error!!!", error)
@@ -115,8 +114,6 @@ export const CrowdFundingProvider = ({ children }) => {
                 pId: i,
             }))
 
-            console.log("Data fetch successfully")
-            console.log(userData)
             return userData
         } catch (error) {
             console.log("Error!", error)

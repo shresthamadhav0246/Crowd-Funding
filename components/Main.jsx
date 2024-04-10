@@ -19,18 +19,6 @@ const Main = () => {
     const [allCampaigns, setAllCampagins] = useState()
     const [userCampagins, setUserCampaigns] = useState()
 
-    // useEffect(() => {
-    //     const getCampaignsData = getCampaigns()
-    //     const getUserCampaignsData = getUserCampaings()
-
-    //     return async () => {
-    //         const allCampaignsData = await getCampaignsData
-    //         const allUserCampaignsData = await getUserCampaignsData
-    //         setAllCampagins(allCampaignsData)
-    //         setUserCampaigns(allUserCampaignsData)
-    //     }
-    // }, [])
-
     useEffect(() => {
         ;(async () => {
             const allCampaignsData = await getCampaigns()
