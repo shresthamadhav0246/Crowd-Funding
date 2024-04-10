@@ -23,13 +23,11 @@ const PopUp = ({ setOpenModal, donate, donateFunction, getDonations }) => {
     }
 
     useEffect(() => {
-        const donationsListData = getDonations(donate.pId)
-
-        return async () => {
-            const donationData = await donationsListData
-            setAllDonations(donationData)
-        }
-    }, [])
+        ;(async () => {
+            const donationsListData = await getDonations(donate.pId)
+            setAllDonations(donationsListData)
+        })()
+    }, [getDonations])
 
     console.log(allDonations)
 
