@@ -49,27 +49,32 @@ export const CrowdFundingProvider = ({ children }) => {
     }
 
     const getCampaigns = async () => {
-        const provider = new ethers.providers.JsonRpcProvider(
-            "https://eth-sepolia.g.alchemy.com/v2/l6CNn6moSnmhGfzlVkTyPC_YTwtf0_We"
-        )
-        const contract = fetchContract(provider)
+        try {
+            const provider = new ethers.providers.JsonRpcProvider(
+                "https://eth-sepolia.g.alchemy.com/v2/l6CNn6moSnmhGfzlVkTyPC_YTwtf0_We"
+            )
+            const contract = fetchContract(provider)
 
-        const campaigns = await contract.getCampaigns()
-        const parsedCampaigns = campaigns.map((campaign, i) => ({
-            owner: campaign.owner,
-            title: campaign.title,
-            description: campaign.description,
-            target: ethers.utils.formatEther(campaign.target.toString()),
+            const campaigns = await contract.getCampaigns()
+            const parsedCampaigns = campaigns.map((campaign, i) => ({
+                owner: campaign.owner,
+                title: campaign.title,
+                description: campaign.description,
+                target: ethers.utils.formatEther(campaign.target.toString()),
 
-            deadline: campaign.deadline.toNumber(),
-            amountCollected: ethers.utils.formatEther(
-                campaign.amountCollected.toString()
-            ),
+                deadline: campaign.deadline.toNumber(),
+                amountCollected: ethers.utils.formatEther(
+                    campaign.amountCollected.toString()
+                ),
 
-            pId: i,
-        }))
-
-        return parsedCampaigns
+                pId: i,
+            }))
+            console.log("successfully fetched campaigns data")
+            return parsedCampaigns
+        } catch (error) {
+            console.error("error fetching campaigns", error)
+            throw error
+        }
     }
 
     const getUserCampaings = async () => {
